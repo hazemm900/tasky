@@ -49,6 +49,7 @@ class ListCubit extends Cubit<ListState> {
 
   ScrollController scrollController = ScrollController();
   int pageNumber = 1   ;
+  // solve errpr
   void paginationFunction(){
     if(paginationList.isEmpty) list(pageNumber)   ;
 
