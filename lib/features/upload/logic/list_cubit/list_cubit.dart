@@ -37,8 +37,8 @@ class ListCubit extends Cubit<ListState> {
     result.when(success: (response) {
       taskList = response;
       paginationList.addAll(response)   ;
-      print(" paginationList ${paginationList.length}") ;
-      print(" taskList ${taskList!.length}") ;
+      // print(" paginationList ${paginationList.length}") ;
+      // print(" taskList ${taskList!.length}") ;
 
       print(response);
       emit(ListSuccessState());
