@@ -12,9 +12,9 @@ class ListRepo {
 
   ListRepo(this._listWebServices);
 
-  Future<ApiResult<List<Task>>> listData(int page) async {
+  Future<ApiResult<List<Task>>> listData(int pageNumber) async {
     try {
-      final response = await _listWebServices.taskList(page);
+      final response = await _listWebServices.taskList(pageNumber);
       return ApiResult.success(response);
     } catch (error) {
       return ApiResult.failure(ApiErrorHandler.handle(error));

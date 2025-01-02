@@ -24,9 +24,9 @@ class _ListWebServices implements ListWebServices {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<List<Task>> taskList(int page) async {
+  Future<List<Task>> taskList(int pageNumber) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'page': page};
+    final queryParameters = <String, dynamic>{r'page': pageNumber};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<List<Task>>(Options(

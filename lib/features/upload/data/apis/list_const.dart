@@ -4,6 +4,4 @@ class ListConst {
   static const String taskFunctionsEndPoint = "todos";
 
   static const String refreshTokenEndPoint = "auth/refresh-token";
-
-
 }

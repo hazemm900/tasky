@@ -22,11 +22,19 @@ class ListScreen extends StatelessWidget {
                 controller: cubit.scrollController,
                 padding: const EdgeInsets.all(4.0),
                 shrinkWrap: true,
-                itemCount: cubit.paginationList?.length,
+                itemCount: cubit.paginationList!.length +1 ,
                 itemBuilder: (context, index) {
+
+                  if(index < cubit.paginationList!.length)
+                {
                   return TaskItem(
                     task:cubit.paginationList![index] ,
                   );
+                }else if(cubit.taskList!.isNotEmpty){
+                   return Center(child: CircularProgressIndicator());
+                  }else{
+                    return SizedBox() ;
+                  }
 
                 });
       },
