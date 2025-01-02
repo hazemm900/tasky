@@ -15,8 +15,8 @@ abstract class ListWebServices {
 
   @GET(ListConst.listEndPoint)
   Future<List<Task>> taskList(
-      @Query('page') int page,
-      );
+    @Query('page') int pageNumber,
+  );
 
   @GET("${ListConst.taskFunctionsEndPoint}/{taskId}")
   Future<Task> oneTask(@Path('taskId') String id);

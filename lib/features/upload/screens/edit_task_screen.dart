@@ -98,11 +98,7 @@ class EditTaskScreen extends StatelessWidget {
                     label: "Edit Task",
                     onPress: () {
                       cubit.editTask(context, id);
-                      cubit.imageController.clear();
-                      cubit.titleController.clear();
-                      cubit.descController.clear();
-                      cubit.priorityController.clear();
-                      cubit.statusController.clear();
+
                     }),
               ],
             ),

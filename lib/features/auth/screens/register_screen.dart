@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tasky/core/base_widgets/custom_drop_down.dart';
 import 'package:tasky/core/base_widgets/custom_elevated_button.dart';
 import 'package:tasky/core/base_widgets/custom_failure_text.dart';
 import 'package:tasky/core/base_widgets/custom_text_form_field.dart';
@@ -61,6 +62,13 @@ class RegisterScreen extends StatelessWidget {
                           hintText: "Years Of Experience..."),
                       const SizedBox(
                         height: 20,
+                      ),
+                      CustomDropDown(
+                        hintText: "Choose Experience Leve...",
+                        dropDownList: const ["Fresh", "Junior", "MidLevel", "Senior"],
+                        onChanged: (String? value) {
+                          cubit.levelController.text = value!;
+                        },
                       ),
                       CustomTextFormField(
                           textEditingController: cubit.levelController,

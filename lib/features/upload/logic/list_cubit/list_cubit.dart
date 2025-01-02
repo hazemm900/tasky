@@ -29,17 +29,13 @@ class ListCubit extends Cubit<ListState> {
   TextEditingController statusController = TextEditingController();
   TextEditingController userController = TextEditingController();
 
+  List<Task> paginationList = [];
 
-
-    List<Task>paginationList = []  ;
-  void list(int page) async {
-    final result = await _listRepo.listData(page);
+  void list(int pageNumber) async {
+    final result = await _listRepo.listData(pageNumber);
     result.when(success: (response) {
       taskList = response;
-      paginationList.addAll(response)   ;
-      // print(" paginationList ${paginationList.length}") ;
-      // print(" taskList ${taskList!.length}") ;
-
+      paginationList.addAll(response);
       print(response);
       emit(ListSuccessState());
     }, failure: (error) {
@@ -48,21 +44,22 @@ class ListCubit extends Cubit<ListState> {
   }
 
   ScrollController scrollController = ScrollController();
-  int pageNumber = 1   ;
-  // solve errpr
-  void paginationFunction(){
-    if(paginationList.isEmpty) list(pageNumber)   ;
+  int pageNumber = 1;
+
+  // solve error
+  void paginationFunction() {
+    if (paginationList.isEmpty) list(pageNumber);
 
     scrollController.addListener(() {
-      if(scrollController.position.maxScrollExtent==scrollController.offset){
-        if(taskList!.isEmpty)return ;
-        pageNumber++  ;
-        list(pageNumber) ;
+      if (scrollController.position.maxScrollExtent ==
+          scrollController.offset) {
+        if (taskList!.isEmpty) return;
+        pageNumber++;
+        list(pageNumber);
         emit(ListPaginationState());
       }
     });
   }
-
 
   void oneTask(String taskId) async {
     final result = await _listRepo.oneTask(taskId);
@@ -82,7 +79,7 @@ class ListCubit extends Cubit<ListState> {
         priorityController.text,
         dueDateController.text));
     result.when(success: (response) {
-      list(1);
+      list(pageNumber);
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => const HomeScreen()));
       emit(ListSuccessState());
@@ -102,9 +99,28 @@ class ListCubit extends Cubit<ListState> {
             statusController.text,
             userController.text));
     result.when(success: (response) {
-      list(1);
+      // paginationList.((item) => item.sId == id);
+      for (int i = 0; i < paginationList.length; i++) {
+        if (paginationList[i].sId == id) {
+          paginationList[i] = Task(
+              sId: id,
+              image: imageController.text,
+              title: titleController.text,
+              desc: descController.text,
+              priority: priorityController.text,
+              status: statusController.text,
+              user: userController.text);
+        }
+      }
+      list(pageNumber);
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+
+      imageController.clear();
+      titleController.clear();
+      descController.clear();
+      priorityController.clear();
+      statusController.clear();
       emit(ListSuccessState());
     }, failure: (error) {
       emit(ListErrorState(error));
@@ -114,7 +130,15 @@ class ListCubit extends Cubit<ListState> {
   void deleteTask(context, String id) async {
     final result = await _listRepo.deleteTask(id);
     result.when(success: (response) {
-      list(1);
+      // for(int i= 0  ; i<paginationList.length;i++){
+      //   if(paginationList[i].sId==id){
+      //     paginationList.remove(paginationList[i])  ;
+      //   }
+      // }
+      paginationList.removeWhere((item) => item.sId == id);
+
+      // paginationList.remove(value)
+      // list(pageNumber);
       emit(ListSuccessState());
     }, failure: (error) {
       emit(ListErrorState(error));
@@ -126,15 +150,16 @@ class ListCubit extends Cubit<ListState> {
         await _listRepo.refreshToken(CacheHelper.getData(key: "refreshToken"));
     result.when(success: (response) {
       saveToken(response.accessToken!);
+      // list();
       paginationFunction();
       emit(ListSuccessState());
     }, failure: (error) {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const LoginScreen()));
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()));
       CacheHelper.removeData(key: "token");
       emit(ListErrorState(error));
     });
   }
-
 
   void saveToken(String token) {
     // setTokenIntoHeaderAfterLogin(token);

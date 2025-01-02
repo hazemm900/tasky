@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasky/core/base_widgets/custom_date_picker.dart';
+import 'package:tasky/core/base_widgets/custom_drop_down.dart';
 import 'package:tasky/core/base_widgets/custom_elevated_button.dart';
 import 'package:tasky/core/base_widgets/custom_text_form_field.dart';
 import 'package:tasky/core/base_widgets/priority_drop_down.dart';
@@ -56,6 +57,13 @@ class CreateTaskScreen extends StatelessWidget {
                   const Text("Priority"),
                   const SizedBox(
                     height: 8,
+                  ),
+                  CustomDropDown(
+                    hintText: "Priority",
+                    dropDownList: const ["low", "medium", "high"],
+                    onChanged: (String? value) {
+                      cubit.priorityController.text = value!;
+                    },
                   ),
                   PriorityDropdown(
                     onPrioritySelected: (String priority) {

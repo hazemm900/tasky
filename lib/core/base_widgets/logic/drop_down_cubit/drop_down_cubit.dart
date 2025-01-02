@@ -1,6 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tasky/core/base_widgets/logic/drop_down_cubit/drop_down_state.dart';
+import 'package:tasky/core/base_widgets/custom_drop_down.dart';
 
-class DropDownCubit extends Cubit<DropDownState> {
-  DropDownCubit() : super(DropDownInitial());
+class DropDownCubit extends Cubit<String?> {
+  DropDownCubit() : super(null);
+
+  void selectValue(String value) => emit(value);
 }
+
+
